@@ -1,6 +1,6 @@
 /**
  * Mock Server
- * @author LiQingSong
+ * @author XiongChao
  */
 const requireContext = require('./require-context');
 const chokidar = require('chokidar');

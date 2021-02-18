@@ -22,7 +22,7 @@
                           :class="{'active': belongTopMenu === item.path }"
                           class="indexlayout-top-menu-li"
                         >
-                        {{t(item.title)}}
+                        {{item.title}}
                         </a-link>
                       </template>
                     </template>             
@@ -34,9 +34,6 @@
                 <right-top-message />
 
                 <right-top-user />
-
-                <select-lang class="indexlayout-top-selectlang" />
-
             </div>
         </div>
         <div v-if="topNavEnable" class="indexlayout-right-top-bot">
@@ -49,17 +46,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, PropType, Ref, toRefs } from "vue";
-import { useI18n } from "vue-i18n";
 import { BreadcrumbType, RoutesDataItem } from '@/utils/routes';
 import BreadCrumbs from '@/components/BreadCrumbs/index.vue';
-import SelectLang from '@/components/SelectLang/index.vue';
 import ALink from '@/components/ALink/index.vue';
 import RightTopMessage from './RightTopMessage.vue';
 import RightTopUser from './RightTopUser.vue';
 import useTopMenuWidth from "../composables/useTopMenuWidth";
 
 interface RightTopSetupData {
-  t: Function;
   topMenuCon: Ref;
   topMenuWidth: Ref;
 }
@@ -70,8 +64,7 @@ export default defineComponent({
       ALink,
       BreadCrumbs,
       RightTopMessage,
-      RightTopUser,
-      SelectLang,
+      RightTopUser
     },
     props: {
       collapsed: {
@@ -99,13 +92,11 @@ export default defineComponent({
       }
     },
     setup(props): RightTopSetupData {
-      const { t } = useI18n();
       const { topNavEnable } = toRefs(props);
 
       const { topMenuCon, topMenuWidth } = useTopMenuWidth(topNavEnable);
 
       return {
-        t,
         topMenuCon,
         topMenuWidth
       }

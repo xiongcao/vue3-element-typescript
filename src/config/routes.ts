@@ -1,6 +1,6 @@
 /**
  * 路由入口
- * @author LiQingSong
+ * @author XiongChao
  */
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { RoutesDataItem } from "@/utils/routes";
@@ -36,7 +36,7 @@ const routes: Array<RoutesDataItem> = [
     children: UserLayoutRoutes
   },
   {
-    title: 'app.global.menu.notfound',
+    title: 'Not Found',
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/404/index.vue'),
   }

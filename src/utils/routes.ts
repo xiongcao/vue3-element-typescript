@@ -1,6 +1,6 @@
 /**
  * Route utils
- * @author LiQingSong
+ * @author XiongChao
  */
 import { Component } from 'vue';
 import { RouteLocation, RouteLocationRaw} from 'vue-router';

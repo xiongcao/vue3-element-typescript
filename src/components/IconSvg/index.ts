@@ -2,7 +2,7 @@ import iconsvg from "./index.vue";
 
 /**
  * 自动导入 @/assets/iconsvg 下svg文件
- * @author LiQingSong
+ * @author XiongChao
  */
 export function importAllSvg (): void {
     try {  

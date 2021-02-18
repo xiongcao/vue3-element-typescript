@@ -33,7 +33,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType, reactive, ref } from "vue";
-import { useI18n } from "vue-i18n";
 import { ElForm, ElMessage } from "element-plus";
 import TypeSelect from './TypeSelect.vue';
 import { TableListItem } from "../data.d";
@@ -76,7 +75,6 @@ export default defineComponent({
     },
     setup(props): UpdateFormSetupData {
 
-        const { t } = useI18n();
 
         // 表单值
         const modelRef = reactive<TableListItem>({
@@ -136,7 +134,7 @@ export default defineComponent({
                 }
             } catch (error) {
                 // console.log('error', error);
-                ElMessage.warning(t('app.global.form.validatefields.catch'));
+                ElMessage.warning('验证不通过，请检查输入');
             }
         };
         

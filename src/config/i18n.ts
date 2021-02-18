@@ -1,6 +1,6 @@
 /**
  * 国际化 入口
- * @author LiQingSong
+ * @author XiongChao
  */
 
 import { createI18n } from "vue-i18n";

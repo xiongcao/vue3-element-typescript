@@ -1,6 +1,6 @@
 /**
  * 自定义 require.context
- * @author LiQingSong
+ * @author XiongChao
  */
 module.exports = function(directory, recursive, regExp) {
     const dir = require('node-dir')

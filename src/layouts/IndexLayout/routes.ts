@@ -2,76 +2,63 @@ import { RoutesDataItem } from "@/utils/routes";
 import BlankLayout from '@/layouts/BlankLayout.vue';
 
 const IndexLayoutRoutes: Array<RoutesDataItem> = [
-  /*
-  {
-    title: 'index-layout.menu.home',
-    path: '/home',
-    component: ()=> import('@/views/home/index.vue')
-  }, */
   {
     icon: 'home',
-    title: 'index-layout.menu.home',
+    title: '首页',
     path: '/home',
     redirect: '/home/workplace',
     component: BlankLayout,
     children: [
       {
         icon: 'control',
-        title: 'index-layout.menu.home.workplace',
+        title: '工作台',
         path: 'workplace',
         component: ()=> import('@/views/home/index.vue')
       },
       {
         icon: 'edit',
-        title: 'index-layout.menu.home.custom-breadcrumbs',
+        title: '自定义面包屑',
         path: 'custombreadcrumbs',
         component: ()=> import('@/views/custom-breadcrumbs/index.vue'),
         breadcrumb: [
           {
-            title: 'index-layout.menu.home.custom-breadcrumbs',
+            title: '自定义面包屑',
             path: '/home/custombreadcrumbs',
           },
           {
-            title: 'index-layout.menu.home',
+            title: '首页',
             path: '/home',
           },
           {
-            title: 'index-layout.menu.home.custom-breadcrumbs.liqingsong.cc',
-            path: 'http://liqingsong.cc',
+            title: 'XiongChao.cc',
+            path: 'http://XiongChao.cc',
           },
         ],
-      },
-      {
-        icon: 'detail',
-        title: 'index-layout.menu.home.docs',
-        path: 'http://admin-element-vue.liqingsong.cc/',
-        belongTopMenu: '/home',
-        redirect: ''
       },
     ],
   },
 
   {
     icon: 'components',
-    title: 'index-layout.menu.component',
+    title: '组件',
     path: '/component',
     redirect: '/component/icon/svg',
     component: BlankLayout,
     children:[
         {
             icon: 'icon',
-            title: 'index-layout.menu.component.icon',
+            title: '图标',
             path: 'icon',
             redirect: '/component/icon/svg',
             component: BlankLayout,
             children: [
                 {
-                    title: 'index-layout.menu.component.icon.svg',
+                    title: 'IconSvg',
                     path: 'svg',
                     component: () => import('@/views/component/icon/svg/index.vue'),
                 },
                 {
-                  title: 'index-layout.menu.component.icon.font',
+                  title: 'IconFont',
                   path: 'font',
                   component: () => import('@/views/component/icon/font/index.vue'),
                 },
@@ -79,18 +66,18 @@ const IndexLayoutRoutes: Array<RoutesDataItem> = [
         },
         {
             icon: 'editor',
-            title: 'index-layout.menu.component.editor',
+            title: '编辑器',
             path: 'editor',
             redirect: '/component/editor/tuieditor',
             component: BlankLayout,
             children: [
                 {
-                    title: 'index-layout.menu.component.editor.tui-editor',
+                    title: 'tui-editor',
                     path: 'tuieditor',
                     component: () => import('@/views/component/editor/tui-editor/index.vue'),
                 },
                 {
-                    title: 'index-layout.menu.component.editor.ckeditor',
+                    title: 'CKEditor',
                     path: 'ckeditor',
                     component: () => import('@/views/component/editor/ckeditor/index.vue'),
                 }
@@ -101,84 +88,51 @@ const IndexLayoutRoutes: Array<RoutesDataItem> = [
 
   {
     icon: 'page',
-    title: 'index-layout.menu.pages',
+    title: '页面示例',
     path: '/pagesample',
-    redirect: '/pagesample/list/table',
+    redirect: '/pagesample/list/highlyadaptivetable',
     component: BlankLayout,
     children: [
       {
         icon: 'list',
-        title: 'index-layout.menu.pages.list',
+        title: '列表页面',
         path: 'list',
-        redirect: '/pagesample/list/table',
+        redirect: '/pagesample/list/highlyadaptivetable',
         component: BlankLayout,
         children: [          
           {
-            title: 'index-layout.menu.pages.list.table',
-            path: 'table',
-            component: ()=> import('@/views/pagesample/list/table/index.vue'),
-          },
-          {
-            title: 'index-layout.menu.pages.list.highly-adaptive-table',
+            title: '高度自适应表格',
             path: 'highlyadaptivetable',
             component: ()=> import('@/views/pagesample/list/highly-adaptive-table/index.vue'),
-          },
-          {
-            title: 'index-layout.menu.pages.list.search',
-            path: 'search',
-            redirect: '/pagesample/list/search/table',
-            component: BlankLayout,
-            children: [
-              {
-                title: 'index-layout.menu.pages.list.search.table',
-                path: 'table',
-                component: ()=> import('@/views/pagesample/list/search/table/index.vue'),
-              }              
-            ],
-          },
+          }
         ],
       },
       {
         icon: 'edit',
-        title: 'index-layout.menu.pages.form',
+        title: '表单页面',
         path: 'form',
         redirect: '/pagesample/form/basic',
         component: BlankLayout,
         children: [
           {
-            title: 'index-layout.menu.pages.form.basic',
+            title: '基础表单',
             path: 'basic',
             component: ()=> import('@/views/pagesample/form/basic/index.vue'),
-          },
-          {
-            title: 'index-layout.menu.pages.form.complex',
-            path: 'complex',
-            component: ()=> import('@/views/pagesample/form/complex/index.vue'),
-          },
+          }
         ],
       },
       {
         icon: 'detail',
-        title: 'index-layout.menu.pages.detail',
+        title: '详情页面',
         path: 'detail',
         redirect: '/pagesample/detail/basic',
         component: BlankLayout,
         children: [
           {
-            title: 'index-layout.menu.pages.detail.basic',
+            title: '基础详情',
             path: 'basic',
             component: ()=> import('@/views/pagesample/detail/basic/index.vue'),
-          },
-          {
-            title: 'index-layout.menu.pages.detail.module',
-            path: 'module',
-            component: ()=> import('@/views/pagesample/detail/module/index.vue'),
-          },
-          {
-            title: 'index-layout.menu.pages.detail.table',
-            path: 'table',
-            component: ()=> import('@/views/pagesample/detail/table/index.vue'),
-          },
+          }
         ],
       },
     ],
@@ -186,28 +140,28 @@ const IndexLayoutRoutes: Array<RoutesDataItem> = [
 
   {
     icon: 'permissions',
-    title: 'index-layout.menu.roles',
+    title: '权限验证',
     path: '/roles',
     redirect: '/roles/all',
     component: BlankLayout,
     children: [
       {
         icon: 'detail',
-        title: 'index-layout.menu.roles.all',
+        title: '用户都有权限',
         path: 'all',
         component: ()=> import('@/views/roles/all/index.vue'),
       },
       {
         icon: 'detail',
         roles: ['user'],
-        title: 'index-layout.menu.roles.user',
+        title: 'Users有权限',
         path: 'user',
         component: ()=> import('@/views/roles/user/index.vue'),
       },
       {
         icon: 'detail',
         roles: ['test'],
-        title: 'index-layout.menu.roles.test',
+        title: 'Tests有权限',
         path: 'test',
         component: ()=> import('@/views/roles/test/index.vue'),
       },

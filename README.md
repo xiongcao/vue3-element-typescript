@@ -4,7 +4,7 @@
 
 **注意：Demo 用的是在线mock服务，不稳定，若在线登录不了pull到本地可直接运行查看demo**
 
-| **[http://tsv2-demo.admin-element-vue.liqingsong.cc](http://tsv2-demo.admin-element-vue.liqingsong.cc/)**             |
+| **[http://tsv2-demo.admin-element-vue.XiongChao.cc](http://tsv2-demo.admin-element-vue.XiongChao.cc/)**             |
 :-------------------------:
 | ![Home](https://gitee.com/lqsong/public/raw/master/admin-element-vue-typescript/home.png)  |
 | ![Home](https://gitee.com/lqsong/public/raw/master/admin-element-vue-typescript/home2.png)  |
@@ -13,7 +13,7 @@
 
 ## 使用文档
 
- - [http://admin-element-vue.liqingsong.cc/tsv2/](http://admin-element-vue.liqingsong.cc/tsv2/)
+ - [http://admin-element-vue.XiongChao.cc/tsv2/](http://admin-element-vue.XiongChao.cc/tsv2/)
  - [Github](https://github.com/lqsong/admin-element-vue) 
  - [Gitee](https://gitee.com/lqsong/admin-element-vue)
 
@@ -96,7 +96,7 @@ or
 $ npm install
 ```
 
-> 推荐使用 yarn , **[yarn安装与常用命令](http://liqingsong.cc/article/detail/9)** 。
+> 推荐使用 yarn , **[yarn安装与常用命令](http://XiongChao.cc/article/detail/9)** 。
 
 ### 二、Compiles and hot-reloads for development
 

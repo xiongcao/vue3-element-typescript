@@ -7,10 +7,10 @@
         <template #dropdown>
             <el-dropdown-menu>
                 <el-dropdown-item command="userinfo">
-                    {{t('index-layout.topmenu.userinfo')}}
+                    个人信息
                 </el-dropdown-item>
                 <el-dropdown-item command="logout">
-                   {{t('index-layout.topmenu.logout')}}
+                   退出
                 </el-dropdown-item>
             </el-dropdown-menu>
         </template>
@@ -20,10 +20,8 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import { StateType as UserStateType, CurrentUser } from "@/store/user";
 interface RightTopUserSetupData {
-    t: Function;
     currentUser: CurrentUser;
     onMenuClick: (event: any) => Promise<void>;
 }
@@ -32,8 +30,6 @@ export default defineComponent({
     setup(): RightTopUserSetupData {
         const store = useStore<{user: UserStateType}>();
         const router = useRouter();
-        const { t } = useI18n();
-
 
         // 获取当前登录用户信息
         const currentUser = computed<CurrentUser>(()=> store.state.user.currentUser);
@@ -59,7 +55,6 @@ export default defineComponent({
 
 
         return {
-            t,
             currentUser: currentUser as unknown as CurrentUser,
             onMenuClick
         }

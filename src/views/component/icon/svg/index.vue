@@ -19,7 +19,7 @@
                 <div style="clear:both"></div>
                 <el-divider />
 
-                <h2>{{t('page.icon.svg.remark.title')}}</h2>
+                <h2>说明：</h2>
                 <table class="el-table">
                     <tbody>
                         <tr>
@@ -67,7 +67,6 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useI18n } from "vue-i18n";
 import IconSvg from "@/components/IconSvg";
 
 const requireAll = (requireContext: __WebpackModuleApi.RequireContext) =>
@@ -85,10 +84,8 @@ export default defineComponent({
         IconSvg
     },
     setup() {
-        const { t } = useI18n();
 
         return {
-            t,
             svgIcons
         }
     }
