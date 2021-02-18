@@ -1,7 +1,7 @@
 <template>
     <el-dropdown  @command="onMenuClick">
         <a class="indexlayout-top-usermenu ant-dropdown-link" @click="e => e.preventDefault()">
-            {{currentUser.name}}
+            {{currentUser.username}}
             <i class="el-icon-arrow-down el-icon--right"></i>
         </a>
         <template #dropdown>
@@ -33,6 +33,8 @@ export default defineComponent({
 
         // 获取当前登录用户信息
         const currentUser = computed<CurrentUser>(()=> store.state.user.currentUser);
+
+        console.log(currentUser, 11)
 
         // 点击菜单
         const onMenuClick = async (command: string) => {

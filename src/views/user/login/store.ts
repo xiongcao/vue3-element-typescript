@@ -41,6 +41,7 @@ const StoreModel: ModuleType = {
                 const response: ResponseData = await accountLogin(payload);
                 const { data } = response;
                 setToken(data.token || '');
+                localStorage.setItem('userData', JSON.stringify(data));
                 status = 'ok';
             } catch (error) {
                 if (error.message && error.message === 'CustomError') {

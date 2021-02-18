@@ -1,31 +1,26 @@
 <template>
     <div class="main">
         <h1 class="title">
-            {{t('page.user.login.form.title')}}
+            账户登录
         </h1>
         <el-form :model="modelRef" :rules="rulesRef" ref="formRef">
             <el-form-item  label="" prop="username">
-                <el-input v-model="modelRef.username" :placeholder="t('page.user.login.form-item-username')" @keydown.enter="handleSubmit">
+                <el-input v-model="modelRef.username" :placeholder="'用户名'" @keydown.enter="handleSubmit">
                     <template #prefix><i class="el-icon-user el-input__icon"></i></template>
                 </el-input>
             </el-form-item>
             <el-form-item label="" prop="password">
-                <el-input v-model="modelRef.password" type="password" :placeholder="t('page.user.login.form-item-password')" @keydown.enter="handleSubmit">
+                <el-input v-model="modelRef.password" type="password" :placeholder="'密码'" @keydown.enter="handleSubmit">
                     <template #prefix><i class="el-icon-unlock el-input__icon"></i></template>
                 </el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" class="submit" @click="handleSubmit" :loading="submitLoading">
-                    {{t('page.user.login.form.btn-submit')}}
+                    登 录
                 </el-button>  
-                <div class="text-align-right">
-                    <router-link to="/user/register">
-                        {{t('page.user.login.form.btn-jump')}}
-                    </router-link>
-                </div>              
             </el-form-item>
 
-            <el-alert v-if="loginStatus === 'error' && !submitLoading" :title="t('page.user.login.form.login-error')" type="error" show-icon :closable="false" />
+            <el-alert v-if="loginStatus === 'error' && !submitLoading" :title="'用户名或密码错误！'" type="error" show-icon :closable="false" />
 
         </el-form>
     </div>
@@ -34,13 +29,11 @@
 import { computed, defineComponent, reactive, ref, watch, Ref } from "vue";
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { useI18n } from "vue-i18n";
 import { ElForm, ElMessage } from 'element-plus';
 import { LoginParamsType } from './data.d';
 import { StateType as UserLoginStateType } from './store';
 
 interface UserLoginSetupData {
-    t: Function;
     modelRef: LoginParamsType;
     rulesRef: any;
     formRef: typeof ElForm;
@@ -57,8 +50,6 @@ export default defineComponent({
         const router = useRouter();
         const { currentRoute } = router;
         const store = useStore<{userlogin: UserLoginStateType}>();
-        const { t } = useI18n();
-
 
         // 表单值
         const modelRef = reactive<LoginParamsType>({
@@ -70,13 +61,13 @@ export default defineComponent({
             username: [
                 {
                     required: true,
-                    message: t('page.user.login.form-item-username.required'),
+                    message: '请输入用户名',
                 },
             ],
             password: [
                 {
                     required: true,
-                    message: t('page.user.login.form-item-password.required'),
+                    message: '请输入密码',
                 },
             ],            
         });
@@ -92,7 +83,7 @@ export default defineComponent({
                 if(valid === true) {
                     const res: boolean = await store.dispatch('userlogin/login',modelRef);
                     if (res === true) {
-                        ElMessage.success(t('page.user.login.form.login-success'));
+                        ElMessage.success('登录成功！');
                         const { redirect, ...query } = currentRoute.value.query;
                         router.replace({
                             path: redirect as string || '/',
@@ -103,8 +94,7 @@ export default defineComponent({
                     } 
                 }
             } catch (error) {
-                // console.log(error);
-                ElMessage.warning(t('app.global.form.validatefields.catch'));
+                ElMessage.warning('验证不通过，请检查输入');
             }
             submitLoading.value = false;
         }
@@ -115,7 +105,6 @@ export default defineComponent({
 
 
         return {
-            t,
             modelRef,
             rulesRef,
             formRef: formRef as unknown as typeof ElForm,

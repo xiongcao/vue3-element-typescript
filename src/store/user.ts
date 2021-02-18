@@ -1,7 +1,5 @@
 import { Mutation, Action } from 'vuex';
 import { StoreModuleType } from "@/utils/store";
-import { ResponseData } from '@/utils/request';
-import { queryCurrent, queryMessage } from "@/services/user";
 import { removeToken } from "@/utils/localToken";
 
 export interface CurrentUser {
@@ -24,7 +22,6 @@ export interface ModuleType extends StoreModuleType<StateType> {
   };
   actions: {
     fetchCurrent: Action<StateType, StateType>;
-    fetchMessage: Action<StateType, StateType>;
     logout: Action<StateType, StateType>;
   };
 }
@@ -59,19 +56,8 @@ const StoreModel: ModuleType = {
   actions: {
     async fetchCurrent({ commit }) {
       try {
-        const response: ResponseData = await queryCurrent();
-        const { data } = response;
+        const data = JSON.parse(localStorage.getItem('userData') || '{}');
         commit('saveCurrentUser', data || {});
-        return true;
-      } catch (error) {
-        return false;
-      }
-    },
-    async fetchMessage({ commit }) {
-      try {
-        const response: ResponseData = await queryMessage();
-        const { data } = response;        
-        commit('saveMessage', data || 0);
         return true;
       } catch (error) {
         return false;

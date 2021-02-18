@@ -30,9 +30,6 @@
                 </div>
             </div>
             <div class="indexlayout-top-menu-right">
-
-                <right-top-message />
-
                 <right-top-user />
             </div>
         </div>
@@ -49,7 +46,6 @@ import { defineComponent, onMounted, PropType, Ref, toRefs } from "vue";
 import { BreadcrumbType, RoutesDataItem } from '@/utils/routes';
 import BreadCrumbs from '@/components/BreadCrumbs/index.vue';
 import ALink from '@/components/ALink/index.vue';
-import RightTopMessage from './RightTopMessage.vue';
 import RightTopUser from './RightTopUser.vue';
 import useTopMenuWidth from "../composables/useTopMenuWidth";
 
@@ -63,7 +59,6 @@ export default defineComponent({
     components: {
       ALink,
       BreadCrumbs,
-      RightTopMessage,
       RightTopUser
     },
     props: {
@@ -157,7 +152,8 @@ export default defineComponent({
     }
 
     .indexlayout-top-menu-right {
-      width: 150px;
+      width: 80px;
+      line-height: 50px;
       .indexlayout-top-usermenu {
         padding-left: 10px;
         color: #c0c4cc;
