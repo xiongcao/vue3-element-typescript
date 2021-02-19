@@ -235,11 +235,11 @@ export default defineComponent({
 
 
         return {
-            loading: loading as unknown as boolean,
-            refundApplication: refundApplication as unknown as RefundApplicationDataType,
-            userInfo: userInfo as unknown as UserInfoDataType,
-            goodsData: goodsData as unknown as ReturnGoodsDataType,
-            returnProgress: returnProgress as unknown as ReturnProgressDataType,
+            loading: loading as any as boolean,
+            refundApplication: refundApplication as any as RefundApplicationDataType,
+            userInfo: userInfo as any as UserInfoDataType,
+            goodsData: goodsData as any as ReturnGoodsDataType,
+            returnProgress: returnProgress as any as ReturnProgressDataType,
         }
     }
 })

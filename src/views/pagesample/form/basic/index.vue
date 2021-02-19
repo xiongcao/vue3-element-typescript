@@ -177,9 +177,9 @@ export default defineComponent({
         return {
             modelRef,
             rulesRef,
-            formRef: formRef as unknown as typeof ElForm,
+            formRef: formRef as any as typeof ElForm,
             resetFields,
-            submitLoading: submitLoading as unknown as boolean,
+            submitLoading: submitLoading as any as boolean,
             handleSubmit,
         }
 

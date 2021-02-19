@@ -67,8 +67,8 @@ export default defineComponent({
         const topMenuPath = computed<string>(()=> getRouteBelongTopMenu(routeItem.value as RoutesDataItem));
 
         return {
-            item: routeItem as unknown as RoutesDataItem,
-            topMenuPath: topMenuPath as unknown as string,
+            item: routeItem as any as RoutesDataItem,
+            topMenuPath: topMenuPath as any as string,
             hasChildRoute
         }
 

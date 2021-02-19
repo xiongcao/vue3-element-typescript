@@ -28,7 +28,6 @@
                 <permission :roles="routeItem.roles">
                   <router-view></router-view>
                 </permission>
-                <right-footer></right-footer>
             </div>
 
         </div>
@@ -54,7 +53,6 @@ import IndexLayoutRoutes from './routes';
 import Permission from '@/components/Permission/index.vue';
 import Left from './components/Left.vue';
 import RightTop from './components/RightTop.vue';
-import RightFooter from './components/RightFooter.vue';
 import Settings from "./components/Settings.vue";
 
 interface IndexLayoutSetupData {
@@ -75,7 +73,6 @@ export default defineComponent({
         Permission,
         Left,
         RightTop,
-        RightFooter,
         Settings
     },
     setup(): IndexLayoutSetupData {
@@ -126,15 +123,15 @@ export default defineComponent({
 
         
         return {
-          collapsed: collapsed as unknown as boolean,
+          collapsed: collapsed as any as boolean,
           toggleCollapsed,
-          topNavEnable: topNavEnable as unknown as boolean,
-          belongTopMenu: belongTopMenu as unknown as string,
-          headFixed: headFixed as unknown as boolean, 
-          defaultActive: defaultActive as unknown as string,
-          breadCrumbs: breadCrumbs as unknown as BreadcrumbType[],
-          permissionMenuData: permissionMenuData as unknown as RoutesDataItem[],
-          routeItem: routeItem as unknown as RoutesDataItem
+          topNavEnable: topNavEnable as any as boolean,
+          belongTopMenu: belongTopMenu as any as string,
+          headFixed: headFixed as any as boolean, 
+          defaultActive: defaultActive as any as string,
+          breadCrumbs: breadCrumbs as any as BreadcrumbType[],
+          permissionMenuData: permissionMenuData as any as RoutesDataItem[],
+          routeItem: routeItem as any as RoutesDataItem
         }
 
 

@@ -74,7 +74,7 @@ export default defineComponent({
 
 
         return {
-            newMenuData: newMenuData as unknown as RoutesDataItem[]
+            newMenuData: newMenuData as any as RoutesDataItem[]
         }
     }
 })

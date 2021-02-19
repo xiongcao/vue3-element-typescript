@@ -34,8 +34,6 @@ export default defineComponent({
         // 获取当前登录用户信息
         const currentUser = computed<CurrentUser>(()=> store.state.user.currentUser);
 
-        console.log(currentUser, 11)
-
         // 点击菜单
         const onMenuClick = async (command: string) => {
 
@@ -57,7 +55,7 @@ export default defineComponent({
 
 
         return {
-            currentUser: currentUser as unknown as CurrentUser,
+            currentUser: currentUser as any as CurrentUser,
             onMenuClick
         }
     }

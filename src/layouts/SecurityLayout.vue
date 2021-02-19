@@ -56,10 +56,10 @@ export default defineComponent({
 
 
         return {
-            isLogin: isLogin as unknown as boolean,
-            loading: loading as unknown as boolean,
+            isLogin: isLogin as any as boolean,
+            loading: loading as any as boolean,
             getUser,
-            isReady: isReady as unknown as boolean
+            isReady: isReady as any as boolean
         }
 
 

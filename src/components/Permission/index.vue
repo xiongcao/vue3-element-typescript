@@ -42,7 +42,7 @@ export default defineComponent({
         const isPermission = computed(()=> hasPermissionRouteRoles(store.state.user.currentUser.roles, props.roles));
 
         return {
-            isPermission: isPermission as unknown as boolean
+            isPermission: isPermission as any as boolean
         }
 
     }

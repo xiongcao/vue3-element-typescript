@@ -107,10 +107,10 @@ export default defineComponent({
         return {
             modelRef,
             rulesRef,
-            formRef: formRef as unknown as typeof ElForm,
-            submitLoading: submitLoading as unknown as boolean,
+            formRef: formRef as any as typeof ElForm,
+            submitLoading: submitLoading as any as boolean,
             handleSubmit,
-            loginStatus: loginStatus as unknown as "ok" | "error" | undefined
+            loginStatus: loginStatus as any as "ok" | "error" | undefined
         }
     }
 })

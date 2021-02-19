@@ -14,27 +14,27 @@ const IndexLayoutRoutes: Array<RoutesDataItem> = [
         title: '工作台',
         path: 'workplace',
         component: ()=> import('@/views/home/index.vue')
+      }
+    ],
+  },
+
+  {
+    icon: 'home',
+    title: '广告',
+    path: '/advert',
+    redirect: '/advert/position',
+    component: BlankLayout,
+    children: [
+      {
+        title: '广告位置',
+        path: 'position',
+        component: ()=> import('@/views/advert/position/index.vue')
       },
       {
-        icon: 'edit',
-        title: '自定义面包屑',
-        path: 'custombreadcrumbs',
-        component: ()=> import('@/views/custom-breadcrumbs/index.vue'),
-        breadcrumb: [
-          {
-            title: '自定义面包屑',
-            path: '/home/custombreadcrumbs',
-          },
-          {
-            title: '首页',
-            path: '/home',
-          },
-          {
-            title: 'XiongChao.cc',
-            path: 'http://XiongChao.cc',
-          },
-        ],
-      },
+        title: '广告列表',
+        path: 'list',
+        component: ()=> import('@/views/advert/list/index.vue')
+      }
     ],
   },
 

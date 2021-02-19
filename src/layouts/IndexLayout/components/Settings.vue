@@ -90,14 +90,14 @@ export default defineComponent({
 
 
         return {
-            visible: visible as unknown as boolean,
+            visible: visible as any as boolean,
             close,
             show,
-            topNavEnable: topNavEnable as unknown as boolean,
+            topNavEnable: topNavEnable as any as boolean,
             onChangeTopNavEnable,
-            headFixed: headFixed as unknown as boolean,
+            headFixed: headFixed as any as boolean,
             onChangeHeadFixed,
-            disabledHeadFixed: disabledHeadFixed as unknown as boolean,
+            disabledHeadFixed: disabledHeadFixed as any as boolean,
         }
 
     }

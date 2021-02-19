@@ -1,110 +1,120 @@
 <template>
 
-    <screen-table
-        class="indexlayout-main-conent"
-        row-key="id"
-        :data="list"
-        :loading="loading"
-        :pagination="{
-            ...pagination,
-            onChange: (page) => {
-                getList(page);
-            }
-        }"
-    >
-
-        <template #header>
-            <el-row>
+    <div class="indexlayout-main-conent">
+        <el-card shadow="never" class="cus-card">
+            <template #header>
+                <el-row>
                     <el-col :span="8">
                         <el-button type="primary" @click="() => setCreateFormVisible(true)">新增</el-button>
                     </el-col>
-                    <el-col :span="16" class="text-align-right">                        
-                        <el-input v-model="searchVal" style="width:200px;margin-left: 16px;" placeholder="请输入搜索内容">
-                            <template #suffix>
-                                <i class="el-input__icon el-icon-search cursor-pointer"></i>
-                            </template>
-                        </el-input>
-                        <el-button style="margin-left: 8px"  @click="() => searchDrawerVisible = true">高级搜索</el-button>
-                    </el-col>
-            </el-row>
-        </template>
-
-
-        <el-table-column
-            type="index"
-            label="序号"
-            :index="(index) => {
-                return (pagination.current - 1) * pagination.pageSize + index + 1;
-            }"
-            width="80">
-        </el-table-column>
-
-        <el-table-column
-            label="名称"
-            prop="name">
-            <template #default="{row}">
-                <a :href="row.href" target="_blank">{{row.name}}</a>                              
+                </el-row>
             </template>
-        </el-table-column>
+            <el-table
+                row-key="id"
+                :data="list"
+                v-loading="loading"
+            >
 
-        <el-table-column
-            label="备注"
-            prop="desc">
-        </el-table-column>
+                <el-table-column
+                    type="index"
+                    label="序号"
+                    :index="(index) => {
+                        return (pagination.current - 1) * pagination.pageSize + index + 1;
+                    }"
+                    width="80">
+                </el-table-column>
 
-        <el-table-column
-            label="位置"
-            prop="type">
-            <template #default="{row}">
-                <el-tag v-if="row.type === 'header'" type="success">头部</el-tag>
-                <el-tag v-else type="warning">底部</el-tag>                            
-            </template>
-        </el-table-column>
+                <el-table-column
+                    label="名称"
+                    prop="name">
+                </el-table-column>
 
-        <el-table-column
-            label="操作"
-            prop="action"
-            width="150">
-            <template #default="{row}">
-                <el-button type="text" @click="() => detailUpdateData(row.id)" :loading="detailUpdateLoading.includes(row.id)">编辑</el-button>
-                <el-button type="text"  @click="() => deleteTableData(row.id)" :loading="deleteLoading.includes(row.id)">删除</el-button>                         
-            </template>
-        </el-table-column>
+                <el-table-column
+                    label="位置"
+                    prop="positionId">
+                    <!-- <template #default="{row}">
+                        <el-tag v-if="row.status === 1" type="success">开启</el-tag>
+                        <el-tag v-else type="warning">关闭</el-tag>                            
+                    </template> -->
+                </el-table-column>
 
+                <el-table-column
+                    label="简介"
+                    prop="sub">
+                </el-table-column>
 
-    </screen-table>
+                <el-table-column
+                    label="链接"
+                    prop="url"
+                    min-width="150">
+                </el-table-column>
 
+                <el-table-column
+                    label="排序"
+                    prop="rank">
+                </el-table-column>
 
-    <create-form 
-        :visible="createFormVisible" 
-        :onCancel="() => setCreateFormVisible(false)" 
-        :onSubmitLoading="createSubmitLoading" 
-        :onSubmit="createSubmit"
-    />
+                <el-table-column
+                    label="状态"
+                    prop="rank">
+                    <template #default="{row}">
+                        <el-tag v-if="row.status === 1" type="success">开启</el-tag>
+                        <el-tag v-else type="warning">关闭</el-tag>                            
+                    </template>
+                </el-table-column>
 
-    <update-form
-        v-if="updateFormVisible===true"
-        :visible="updateFormVisible"
-        :values="updateData"
-        :onCancel="() => updataFormCancel()"
-        :onSubmitLoading="updateSubmitLoading"
-        :onSubmit="updateSubmit"
-    />
+                <el-table-column
+                    label="备注"
+                    prop="remark">
+                </el-table-column>
 
-    <search-drawer
-        :visible="searchDrawerVisible" 
-        :onClose="() => searchDrawerClose()"
-        :onSubmit="searchDrawerSubmit"
-    />
+                <el-table-column
+                    label="时间"
+                    prop="lastModifiedDate"
+                    min-width="150">
+                </el-table-column>
 
+                <el-table-column
+                    label="操作"
+                    prop="action"
+                    width="150"
+                    fixed="right">
+                    <template #default="{row}">
+                        <el-button type="text" @click="() => detailUpdateData(row.id)" :loading="detailUpdateLoading.includes(row.id)">编辑</el-button>
+                        <el-button type="text"  @click="() => deleteTableData(row.id)" :loading="deleteLoading.includes(row.id)">删除</el-button>                         
+                    </template>
+                </el-table-column>
+            </el-table>
 
-   
+        </el-card>
+
+        <create-form 
+            :visible="createFormVisible" 
+            :onCancel="() => setCreateFormVisible(false)" 
+            :onSubmitLoading="createSubmitLoading" 
+            :onSubmit="createSubmit"
+        />
+
+        <update-form
+            v-if="updateFormVisible===true"
+            :visible="updateFormVisible"
+            :values="updateData"
+            :onCancel="() => updataFormCancel()"
+            :onSubmitLoading="updateSubmitLoading"
+            :onSubmit="updateSubmit"
+        />
+
+        <search-drawer
+            :visible="searchDrawerVisible" 
+            :onClose="() => searchDrawerClose()"
+            :onSubmit="searchDrawerSubmit"
+        />
+    </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { ElMessageBox, ElMessage } from "element-plus";
-import ScreenTable from '@/components/ScreenTable/index.vue';
 import CreateForm from './components/CreateForm.vue';
 import UpdateForm from './components/UpdateForm.vue';
 import SearchDrawer from './components/SearchDrawer.vue';
@@ -137,32 +147,28 @@ interface ListHighlyAdaptiveTablePageSetupData {
 }
 
 export default defineComponent({
-    name: 'ListHighlyAdaptiveTablePage',
+    name: 'AdvertList',
     components: {
-        ScreenTable,
         CreateForm,
         UpdateForm,
         SearchDrawer
     },
     setup(): ListHighlyAdaptiveTablePageSetupData {
 
-        const store = useStore<{ ListHighlyAdaptiveTable: ListStateType}>();
+        const store = useStore<{ AdvertList: ListStateType}>();
 
 
         // 列表数据
-        const list = computed<TableListItem[]>(() => store.state.ListHighlyAdaptiveTable.tableData.list);
+        const list = computed<TableListItem[]>(() => store.state.AdvertList.tableData.list);
 
         // 列表分页
-        const pagination = computed<PaginationConfig>(() => store.state.ListHighlyAdaptiveTable.tableData.pagination);
+        const pagination = computed<PaginationConfig>(() => store.state.AdvertList.tableData.pagination);
 
         // 获取数据
         const loading = ref<boolean>(true);
         const getList = async (current: number): Promise<void> => {
             loading.value = true;
-            await store.dispatch('ListHighlyAdaptiveTable/queryTableData', {
-                per: pagination.value.pageSize,
-                page: current,
-            });
+            await store.dispatch('AdvertList/queryTableData');
             loading.value = false;
         }
 
@@ -177,7 +183,7 @@ export default defineComponent({
         // 新增弹框 - 提交
         const createSubmit = async (values: Omit<TableListItem, 'id'>, resetFields: () => void) => {
             createSubmitLoading.value = true;
-            const res: boolean = await store.dispatch('ListHighlyAdaptiveTable/createTableData',values);
+            const res: boolean = await store.dispatch('AdvertList/createTableData',values);
             if(res === true) {
                 resetFields();
                 setCreateFormVisible(false);
@@ -195,14 +201,14 @@ export default defineComponent({
         }
         const updataFormCancel = () => {
             setUpdateFormVisible(false);
-            store.commit('ListHighlyAdaptiveTable/setUpdateData',{});
+            store.commit('AdvertList/setUpdateData',{});
         }
         // 编辑弹框 - 提交 loading
         const updateSubmitLoading = ref<boolean>(false);
         // 编辑弹框 - 提交
         const updateSubmit = async (values: TableListItem, resetFields: () => void) => {
             updateSubmitLoading.value = true;
-            const res: boolean = await store.dispatch('ListHighlyAdaptiveTable/updateTableData',values);
+            const res: boolean = await store.dispatch('AdvertList/updateTableData',values);
             if(res === true) {
                 updataFormCancel();                
                 ElMessage.success('编辑成功！');
@@ -212,11 +218,11 @@ export default defineComponent({
         }
 
         // 编辑弹框 data
-        const updateData = computed<Partial<TableListItem>>(() => store.state.ListHighlyAdaptiveTable.updateData);
+        const updateData = computed<Partial<TableListItem>>(() => store.state.AdvertList.updateData);
         const detailUpdateLoading = ref<number[]>([]);
         const detailUpdateData = async (id: number) => {
             detailUpdateLoading.value = [id];
-            const res: boolean = await store.dispatch('ListHighlyAdaptiveTable/queryUpdateData',id);
+            const res: boolean = await store.dispatch('AdvertList/queryUpdateData',id);
             if(res===true) {
                 setUpdateFormVisible(true);
             }
@@ -235,7 +241,7 @@ export default defineComponent({
                 type: 'warning',
             }).then(async () => {
                 deleteLoading.value = [id];
-                const res: boolean = await store.dispatch('ListHighlyAdaptiveTable/deleteTableData',id);
+                const res: boolean = await store.dispatch('AdvertList/deleteTableData',id);
                 if (res === true) {
                     ElMessage.success('删除成功！');
                     getList(pagination.value.current);

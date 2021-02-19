@@ -151,7 +151,7 @@ export default defineComponent({
         return {
             DecoupledEditor,
             language: CKEditorConfig.language,
-            editorData: editorData as unknown as string,
+            editorData: editorData as any as string,
             onReady
         }
     }
