@@ -19,7 +19,7 @@
                     type="index"
                     label="序号"
                     :index="(index) => {
-                        return (pagination.current - 1) * pagination.pageSize + index + 1;
+                        return index + 1;
                     }"
                     width="80">
                 </el-table-column>
@@ -40,19 +40,6 @@
                     label="状态"
                     prop="rank">
                     <template #default="{row}">
-                        <!-- <el-popover
-                            placement="bottom"
-                            :width="200"
-                            trigger="hover"
-                        >
-                        <p>确定修改为{{row.status === 1 ? '"禁用"' : '"启用"' }}吗？</p>
-                        <div style="text-align: right; margin: 0">
-                            <el-button size="mini" type="text">取消</el-button>
-                            <el-button type="primary" size="mini">确定</el-button>
-                        </div> -->
-                         <!-- <template #reference>
-                         </template>
-                        </el-popover> -->
                         <el-tag v-if="row.status === 1" type="success">启用</el-tag>
                         <el-tag v-else type="warning">禁用</el-tag>
                     </template>
@@ -90,9 +77,8 @@ import { PaginationConfig, TableListItem } from './data.d';
 
 interface ListHighlyAdaptiveTablePageSetupData {
     list: TableListItem[];
-    pagination: PaginationConfig;
     loading: boolean;
-    getList:  (current: number) => Promise<void>;
+    getList:  () => Promise<void>;
     createFormVisible: boolean;
     setCreateFormVisible:  (val: boolean) => void;
     createSubmitLoading: boolean;
@@ -113,14 +99,11 @@ export default defineComponent({
         // 列表数据
         const list = computed<TableListItem[]>(() => store.state.AdvertPosition.tableData.list);
 
-        // 列表分页
-        const pagination = computed<PaginationConfig>(() => store.state.AdvertPosition.tableData.pagination);
-
         const isEdit = computed<boolean>(() => store.state.AdvertPosition.isEdit);
 
         // 获取数据
         const loading = ref<boolean>(true);
-        const getList = async (current: number): Promise<void> => {
+        const getList = async (): Promise<void> => {
             loading.value = true;
             await store.dispatch('AdvertPosition/queryTableData');
             loading.value = false;
@@ -143,7 +126,7 @@ export default defineComponent({
                 resetFields();
                 setCreateFormVisible(false);
                 ElMessage.success(isEdit.value ? '编辑成功' : '新增成功！');
-                getList(1);
+                getList();
             }
             createSubmitLoading.value = false;
         }
@@ -164,12 +147,11 @@ export default defineComponent({
         }
 
         onMounted(()=> {
-           getList(1);
+           getList();
         })
 
         return {
             list: list as any as TableListItem[],
-            pagination: pagination as any as PaginationConfig,
             loading: loading as any as boolean,
             getList,
             createFormVisible: createFormVisible as any as boolean,

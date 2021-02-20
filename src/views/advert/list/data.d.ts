@@ -14,9 +14,7 @@ export interface PaginationConfig {
 export interface TableListItem {
   id: number;
   name: string;
-  desc: string;
-  href: string;
-  type: string;
+  status: number;
 }
 
 export interface TableDataType {

@@ -3,7 +3,7 @@ import { StoreModuleType } from "@/utils/store";
 import { ResponseData } from '@/utils/request';
 import { TableDataType, TableListItem } from './data';
 import {
-  queryAdvertList,
+  queryAdvertPositionList,
   createData,
 } from './service';
 
@@ -61,7 +61,7 @@ const StoreModel: ModuleType = {
     actions: {
         async queryTableData({ commit } ) {
             try {
-                const response: ResponseData = await queryAdvertList();
+                const response: ResponseData = await queryAdvertPositionList();
                 const { data } = response;
                 commit('setTableData',{
                     ...initState.tableData,

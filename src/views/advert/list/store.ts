@@ -1,18 +1,24 @@
 import { Mutation, Action } from 'vuex';
 import { StoreModuleType } from "@/utils/store";
 import { ResponseData } from '@/utils/request';
-import { TableDataType, TableListItem, TableListQueryParams } from './data.d';
+import { TableDataType, TableListItem } from './data.d';
+import { TableListItem as AdvertPositionItem } from '../position/data.d'
+
 import {
   queryAdvertList,
   removeData,
   createData,
   detailData,
   updateData,
+  updateStatusData
 } from './service';
+
+import { queryAdvertPositionList } from  '../position/service'
 
 
 export interface StateType {
     tableData: TableDataType;
+    advertPositionList: AdvertPositionItem[];
     updateData: Partial<TableListItem>;
 }
 
@@ -21,6 +27,7 @@ export interface ModuleType extends StoreModuleType<StateType> {
     mutations: {
         setTableData: Mutation<StateType>;
         setUpdateData: Mutation<StateType>;
+        setadvertPositionData: Mutation<StateType>;
     };
     actions: {
         queryTableData: Action<StateType, StateType>;
@@ -28,6 +35,8 @@ export interface ModuleType extends StoreModuleType<StateType> {
         createTableData: Action<StateType, StateType>;
         queryUpdateData: Action<StateType, StateType>;
         updateTableData: Action<StateType, StateType>;
+        queryAdvertPositionData: Action<StateType, StateType>;
+        updateRowStatus: Action<StateType, StateType>;
     };
 }
 const initState: StateType = {
@@ -41,6 +50,7 @@ const initState: StateType = {
         showQuickJumper: true,
       },
     },
+    advertPositionList: [],
     updateData: {},
 };
 
@@ -52,11 +62,13 @@ const StoreModel: ModuleType = {
     },
     mutations: {
         setTableData(state, payload) {
-            console.log(payload)
             state.tableData = payload;
         },
         setUpdateData(state, payload) {
             state.updateData = payload;
+        },
+        setadvertPositionData(state, payload) {
+            state.advertPositionList = payload;
         },
     },
     actions: {
@@ -73,6 +85,19 @@ const StoreModel: ModuleType = {
                 return false;
             }
         },
+        async queryAdvertPositionData({ commit } ) {
+            try {
+                const response: ResponseData = await queryAdvertPositionList();
+                const { data } = response;
+                commit('setadvertPositionData',{
+                    ...initState.tableData,
+                    advertPositionList: data || []
+                });
+                return true;
+            } catch (error) {
+                return false;
+            }
+        },
         async deleteTableData({ commit }, payload: number ) {
             try {
                 await removeData(payload);
@@ -81,7 +106,7 @@ const StoreModel: ModuleType = {
                 return false;
             }
         },
-        async createTableData({ commit }, payload: Pick<TableListItem, "name" | "desc" | "href" | "type"> ) {
+        async createTableData({ commit }, payload: Pick<TableListItem, "name" | "status"> ) {
             try {
                 await createData(payload);
                 return true;
@@ -97,6 +122,15 @@ const StoreModel: ModuleType = {
                     ...initState.updateData,
                     ...data,
                 });
+                return true;
+            } catch (error) {
+                return false;
+            }
+        },
+        async updateRowStatus({ commit }, payload: TableListItem ) {
+            try {
+                const { id, status } = payload;
+                await updateStatusData(id, status);
                 return true;
             } catch (error) {
                 return false;

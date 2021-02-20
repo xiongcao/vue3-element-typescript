@@ -5,7 +5,7 @@
             <template #header>
                 <el-row>
                     <el-col :span="8">
-                        <el-button type="primary" @click="() => setCreateFormVisible(true)">新增</el-button>
+                        <el-button type="primary">新增</el-button>
                     </el-col>
                 </el-row>
             </template>
@@ -19,7 +19,7 @@
                     type="index"
                     label="序号"
                     :index="(index) => {
-                        return (pagination.current - 1) * pagination.pageSize + index + 1;
+                        return index + 1;
                     }"
                     width="80">
                 </el-table-column>
@@ -32,10 +32,10 @@
                 <el-table-column
                     label="位置"
                     prop="positionId">
-                    <!-- <template #default="{row}">
-                        <el-tag v-if="row.status === 1" type="success">开启</el-tag>
-                        <el-tag v-else type="warning">关闭</el-tag>                            
-                    </template> -->
+                    <template #default="{row}">
+                        <advert-position
+                            :positionId="row.positionId"/>
+                    </template>
                 </el-table-column>
 
                 <el-table-column
@@ -58,8 +58,21 @@
                     label="状态"
                     prop="rank">
                     <template #default="{row}">
-                        <el-tag v-if="row.status === 1" type="success">开启</el-tag>
-                        <el-tag v-else type="warning">关闭</el-tag>                            
+                        <el-popover
+                            placement="top"
+                            :width="200"
+                            trigger="hover"
+                        >
+                        <p>确定修改为{{row.status === 1 ? '"关闭"' : '"开启"' }}吗？</p>
+                        <div style="text-align: right; margin: 0">
+                            <el-button size="mini" type="text">取消</el-button>
+                            <el-button type="primary" size="mini" @click="() => handleUpdateStatus(row.id, row.status === 1 ? 0 : 1)">确定</el-button>
+                        </div>
+                         <template #reference>
+                            <el-tag v-if="row.status === 1" type="success">开启</el-tag>
+                            <el-tag v-else type="warning">关闭</el-tag>                            
+                         </template>
+                        </el-popover>
                     </template>
                 </el-table-column>
 
@@ -80,155 +93,59 @@
                     width="150"
                     fixed="right">
                     <template #default="{row}">
-                        <el-button type="text" @click="() => detailUpdateData(row.id)" :loading="detailUpdateLoading.includes(row.id)">编辑</el-button>
+                        <el-button type="text">编辑</el-button>
                         <el-button type="text"  @click="() => deleteTableData(row.id)" :loading="deleteLoading.includes(row.id)">删除</el-button>                         
                     </template>
                 </el-table-column>
             </el-table>
 
         </el-card>
-
-        <create-form 
-            :visible="createFormVisible" 
-            :onCancel="() => setCreateFormVisible(false)" 
-            :onSubmitLoading="createSubmitLoading" 
-            :onSubmit="createSubmit"
-        />
-
-        <update-form
-            v-if="updateFormVisible===true"
-            :visible="updateFormVisible"
-            :values="updateData"
-            :onCancel="() => updataFormCancel()"
-            :onSubmitLoading="updateSubmitLoading"
-            :onSubmit="updateSubmit"
-        />
-
-        <search-drawer
-            :visible="searchDrawerVisible" 
-            :onClose="() => searchDrawerClose()"
-            :onSubmit="searchDrawerSubmit"
-        />
     </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { ElMessageBox, ElMessage } from "element-plus";
-import CreateForm from './components/CreateForm.vue';
-import UpdateForm from './components/UpdateForm.vue';
-import SearchDrawer from './components/SearchDrawer.vue';
 import { StateType as ListStateType } from "./store";
 import { PaginationConfig, TableListItem } from './data.d';
+import AdvertPosition from './components/AdvertPosition.vue'
 
 interface ListHighlyAdaptiveTablePageSetupData {
     list: TableListItem[];
-    pagination: PaginationConfig;
     loading: boolean;
-    getList:  (current: number) => Promise<void>;
-    createFormVisible: boolean;
-    setCreateFormVisible:  (val: boolean) => void;
-    createSubmitLoading: boolean;
-    createSubmit: (values: Omit<TableListItem, 'id'>, resetFields: () => void) => Promise<void>;
-    detailUpdateLoading: number[];
-    detailUpdateData: (id: number) => Promise<void>;
-    updateData: Partial<TableListItem>;
-    updateFormVisible: boolean;
-    updataFormCancel:  () => void;
-    updateSubmitLoading: boolean;
-    updateSubmit:  (values: TableListItem, resetFields: () => void) => Promise<void>;
+    getList: () => Promise<void>;
     deleteLoading: number[];
     deleteTableData:  (id: number) => void;
-    tabVal: string;
-    searchVal: string;
-    searchDrawerVisible: boolean;
-    searchDrawerClose: () => void;
-    searchDrawerSubmit: (values: Omit<TableListItem, 'id'>) => Promise<void>;
+    handleUpdateStatus: (id: number, status: number) => void;
 }
 
 export default defineComponent({
     name: 'AdvertList',
     components: {
-        CreateForm,
-        UpdateForm,
-        SearchDrawer
+        AdvertPosition
     },
     setup(): ListHighlyAdaptiveTablePageSetupData {
 
         const store = useStore<{ AdvertList: ListStateType}>();
 
-
         // 列表数据
         const list = computed<TableListItem[]>(() => store.state.AdvertList.tableData.list);
 
-        // 列表分页
-        const pagination = computed<PaginationConfig>(() => store.state.AdvertList.tableData.pagination);
-
         // 获取数据
         const loading = ref<boolean>(true);
-        const getList = async (current: number): Promise<void> => {
+        const getList = async (): Promise<void> => {
             loading.value = true;
             await store.dispatch('AdvertList/queryTableData');
             loading.value = false;
         }
 
-
-        // 新增弹框 - visible
-        const createFormVisible = ref<boolean>(false);
-        const setCreateFormVisible = (val: boolean) => {
-            createFormVisible.value = val;
-        };
-        // 新增弹框 - 提交 loading
-        const createSubmitLoading = ref<boolean>(false);
-        // 新增弹框 - 提交
-        const createSubmit = async (values: Omit<TableListItem, 'id'>, resetFields: () => void) => {
-            createSubmitLoading.value = true;
-            const res: boolean = await store.dispatch('AdvertList/createTableData',values);
-            if(res === true) {
-                resetFields();
-                setCreateFormVisible(false);
-                ElMessage.success('新增成功！');
-                getList(1);
+        const handleUpdateStatus = async (id: number, status: number) => {
+            const res: boolean = await store.dispatch('AdvertList/updateRowStatus',{ id, status});
+            if (res === true) {
+                ElMessage.success('修改成功！');
+                getList();
             }
-            createSubmitLoading.value = false;
         }
-
-
-        // 编辑弹框 - visible
-        const updateFormVisible = ref<boolean>(false);
-        const setUpdateFormVisible = (val: boolean) => {
-            updateFormVisible.value = val;
-        }
-        const updataFormCancel = () => {
-            setUpdateFormVisible(false);
-            store.commit('AdvertList/setUpdateData',{});
-        }
-        // 编辑弹框 - 提交 loading
-        const updateSubmitLoading = ref<boolean>(false);
-        // 编辑弹框 - 提交
-        const updateSubmit = async (values: TableListItem, resetFields: () => void) => {
-            updateSubmitLoading.value = true;
-            const res: boolean = await store.dispatch('AdvertList/updateTableData',values);
-            if(res === true) {
-                updataFormCancel();                
-                ElMessage.success('编辑成功！');
-                getList(pagination.value.current);
-            }
-            updateSubmitLoading.value = false;
-        }
-
-        // 编辑弹框 data
-        const updateData = computed<Partial<TableListItem>>(() => store.state.AdvertList.updateData);
-        const detailUpdateLoading = ref<number[]>([]);
-        const detailUpdateData = async (id: number) => {
-            detailUpdateLoading.value = [id];
-            const res: boolean = await store.dispatch('AdvertList/queryUpdateData',id);
-            if(res===true) {
-                setUpdateFormVisible(true);
-            }
-            detailUpdateLoading.value = [];
-        }
-
 
         // 删除 loading
         const deleteLoading = ref<number[]>([]);
@@ -244,7 +161,7 @@ export default defineComponent({
                 const res: boolean = await store.dispatch('AdvertList/deleteTableData',id);
                 if (res === true) {
                     ElMessage.success('删除成功！');
-                    getList(pagination.value.current);
+                    getList();
                 }
                 deleteLoading.value = [];
             }).catch((error: any) =>{
@@ -253,48 +170,23 @@ export default defineComponent({
 
         }
 
-        const tabVal = ref<string>('all');
-        const searchVal = ref<string>('');
-
-        // 搜索
-        const searchDrawerVisible = ref<boolean>(false);
-        const searchDrawerClose = () => {
-            searchDrawerVisible.value = false;
+        // 获取广告位置列表数据
+        const getAdvertPositionList = async (): Promise<void> => {
+            await store.dispatch('AdvertPosition/queryTableData');
         }
-        const searchDrawerSubmit = async (values: Omit<TableListItem, 'id'>) => {
-            console.log('search', values);
-            ElMessage.success('进行了搜索！');
-            searchDrawerClose();
-        }
-
 
         onMounted(()=> {
-           getList(1);
+            getList();
+            getAdvertPositionList();
         })
 
         return {
             list: list as any as TableListItem[],
-            pagination: pagination as any as PaginationConfig,
             loading: loading as any as boolean,
             getList,
-            createFormVisible: createFormVisible as any as boolean,
-            setCreateFormVisible,
-            createSubmitLoading: createSubmitLoading as any as boolean,
-            createSubmit,
-            detailUpdateLoading: detailUpdateLoading as any as number[],
-            detailUpdateData,
-            updateData: updateData as Partial<TableListItem>,
-            updateFormVisible: updateFormVisible as any as boolean,
-            updataFormCancel,
-            updateSubmitLoading: updateSubmitLoading as any as boolean,
-            updateSubmit,
             deleteLoading: deleteLoading as any as number[],
             deleteTableData,
-            tabVal: tabVal as any as string,
-            searchVal: searchVal as any as string,
-            searchDrawerVisible: searchDrawerVisible as any as boolean,
-            searchDrawerClose,
-            searchDrawerSubmit
+            handleUpdateStatus
         }
 
     }
