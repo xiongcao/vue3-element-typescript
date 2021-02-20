@@ -73,7 +73,7 @@ import { useStore } from "vuex";
 import { ElMessageBox, ElMessage } from "element-plus";
 import CreateForm from './components/CreateForm.vue';
 import { StateType as ListStateType } from "./store";
-import { PaginationConfig, TableListItem } from './data.d';
+import { TableListItem } from './data.d';
 
 interface ListHighlyAdaptiveTablePageSetupData {
     list: TableListItem[];

@@ -29,14 +29,7 @@ export interface ModuleType extends StoreModuleType<StateType> {
 const initState: StateType = {
     isEdit: false,
     tableData: {
-      list: [],
-      pagination: {
-        total: 0,
-        current: 1,
-        pageSize: 10,
-        showSizeChanger: true,
-        showQuickJumper: true,
-      },
+      list: []
     },
     updateData: {},
 };

@@ -14,7 +14,6 @@
                 :data="list"
                 v-loading="loading"
             >
-
                 <el-table-column
                     type="index"
                     label="序号"
@@ -107,7 +106,7 @@ import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { StateType as ListStateType } from "./store";
-import { PaginationConfig, TableListItem } from './data.d';
+import { TableListItem } from './data.d';
 import AdvertPosition from './components/AdvertPosition.vue'
 
 interface ListHighlyAdaptiveTablePageSetupData {
